@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Na Brasa - Delivery</title>
+    
+    <!-- ========== FAVICON - Logo Na Brasa ========== -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <!-- ============================================== -->
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Modal de Boas-vindas -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <h1>Bem-vindo ao Na Brasa!</h1>
+            <p>Para começar seu pedido, informe seus dados:</p>
+            
+            <div class="form-group">
+                <label for="clientName">Seu Nome:</label>
+                <input type="text" id="clientName" placeholder="Digite seu nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="tableNumber">Número da Mesa:</label>
+                <select id="tableNumber" required>
+                    <option value="">Selecione sua mesa</option>
+                </select>
+            </div>
+            
+            <button class="start-btn" onclick="startOrder()">Começar Pedido</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">NA BRASA</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Cardápio</a></li>
+                <li><a href="#bebidas">Bebidas</a></li>
+                <li><a href="#contact">Contato</a></li>
+                <li><a href="cozinha.html" target="_blank">Cozinha</a></li>
+                <li><a href="javascript:void(0)" onclick="openRatingModal()">Avaliar</a></li>
+            </ul>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="displayName"></span>
+                <span id="displayTable"></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Sabor na Brasa</h1>
+        <p>Os melhores pratos grelhados da região</p>
+        <button class="hero-btn" onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})">
+            Ver Cardápio
+        </button>
+    </section>
+
+    <!-- Menu de Comidas -->
+    <section class="section" id="menu">
+        <h2 class="section-title">Nosso Cardápio</h2>
+        <div class="menu-grid" id="menuGrid"></div>
+    </section>
+
+    <!-- Menu de Bebidas -->
+    <section class="section" id="bebidas">
+        <h2 class="section-title">Bebidas</h2>
+        <div class="menu-grid" id="bebidasGrid"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <p>&copy; 2025 Na Brasa - Todos os direitos reservados</p>
+        <p>Delivery de segunda a domingo | Pedido mínimo: R$ 30,00</p>
+        <p>Contato: (41) 3333-4444 | contato@nabrasa.com.br</p>
+    </footer>
+
+    <!-- Botão Pedir Conta (Fixo) -->
+    <button class="request-bill-btn" id="requestBillBtn" onclick="openBillModal()" style="display: none;">
+        Pedir Conta
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
