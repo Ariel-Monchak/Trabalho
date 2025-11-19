@@ -37,7 +37,7 @@ const menuItems = [
     { id: 26, nome: 'Pure de Abobora com Camarão', description: 'Pure de abobora com molho de camarão', preço: 35.00, image: 'img/pureabobora.jpg' },
     { id: 27, nome: 'Sopa', description: 'Sopa de legumes', preço: 28.00, image: 'img/sopa.jpg' },
     { id: 28, nome: 'Prato PF', description: 'Arroz, feijão, bife acebolado, batatinha', preço: 50.00, image: 'img/pratonor.jpg' },
-    { id: 29, nome: 'Hambúrguer queijo Parmezão', description: 'hambuguer, queijo, maionese, batata frita', preço: 55.00, image: 'img/hamburbata.jpg' },
+    { id: 29, nome: 'Hambúrguer queijo Parmezão', description: 'hambuguer, queijo, maionese, batata frita', preço: 55.00, image: 'img/Hamburbat.jpg' },
     { id: 30, nome: 'Hambúrguer Cheddar', description: 'Hambúrguer, pão australiano', preço: 50.00, image: 'img/hamburguer3.jpg' },
     { id: 31, nome: 'Hambúrguer de Frango', description: 'Hambúrguer de Frango, cebola caramelizada, batata frita', preço: 48.00, image: 'img/hamburguer4.jpg' }
 ];
@@ -523,3 +523,4 @@ function submitRating(orderId) {
     alert('Obrigado pela sua avaliação!');
 
 }
+
