@@ -23,7 +23,7 @@
     </div>
 
     <div class="kitchen-header">
-        <h1>COZINHA - NA BRASA</h1>
+        <h1> COZINHA - NA BRASA</h1>
         <p>Pedidos em Tempo Real</p>
     </div>
 
@@ -53,12 +53,28 @@
         <button class="reset-profit-btn" onclick="resetNightProfit()"> Resetar Noite</button>
     </div>
 
+    <!-- NOVO: Painel de Pedidos de Conta -->
+<div class="bill-requests-panel">
+    <div class="bill-requests-header">
+        <h2> Pedidos de Conta</h2>
+        <button class="toggle-bills-btn" onclick="toggleBillRequests()">
+            <span id="toggleBillIcon">👁️</span> <span id="toggleBillText">Ocultar</span>
+        </button>
+    </div>
+    
+    <div class="bill-requests-container" id="billRequestsContainer">
+        <div class="bill-requests-list" id="billRequestsList">
+            <div class="no-bills">Nenhum pedido de conta pendente...</div>
+        </div>
+    </div>
+</div>
+
     <!-- Painel de Avaliações -->
     <div class="ratings-panel">
         <div class="ratings-header">
             <h2>⭐ Avaliações dos Clientes</h2>
             <button class="toggle-ratings-btn" onclick="toggleRatings()">
-                <span id="toggleIcon"></span> <span id="toggleText">Ocultar</span>
+                <span id="toggleIcon">👁️</span> <span id="toggleText">Ocultar</span>
             </button>
         </div>
         
