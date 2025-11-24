@@ -37,7 +37,7 @@ const menuItems = [
     { id: 26, nome: 'Pure de Abobora com Camarão', description: 'Pure de abobora com molho de camarão', preço: 35.00, image: 'img/pureabobora.jpg' },
     { id: 27, nome: 'Sopa', description: 'Sopa de legumes', preço: 28.00, image: 'img/sopa.jpg' },
     { id: 28, nome: 'Prato PF', description: 'Arroz, feijão, bife acebolado, batatinha', preço: 50.00, image: 'img/pratonor.jpg' },
-    { id: 29, nome: 'Hambúrguer queijo Parmezão', description: 'hambuguer, queijo, maionese, batata frita', preço: 55.00, image: 'img/Hamburbat.jpg' },
+    { id: 29, nome: 'Hambúrguer queijo Parmezão', description: 'hambuguer, queijo, maionese, batata frita', preço: 55.00, image: 'img/hamburbat.jpg' },
     { id: 30, nome: 'Hambúrguer Cheddar', description: 'Hambúrguer, pão australiano', preço: 50.00, image: 'img/hamburguer3.jpg' },
     { id: 31, nome: 'Hambúrguer de Frango', description: 'Hambúrguer de Frango, cebola caramelizada, batata frita', preço: 48.00, image: 'img/hamburguer4.jpg' }
 ];
@@ -164,7 +164,7 @@ function renderBebidas() {
     bebidasGrid.innerHTML = bebidas.map(item => `
         <div class="menu-item">
             <div class="bebida-item-img">
-                <img src="${item.image}" alt="${item.nome}" onerror="this.parentElement.innerHTML='<span>🍺</span>'">
+                <img src="${item.image}" alt="${item.nome}" onerror="this.parentElement.innerHTML='<span></span>'">
             </div>
             <div class="menu-item-content">
                 <h3>${item.nome}</h3>
@@ -193,7 +193,7 @@ function addToCart(itemId, type) {
 function createCartButton() {
     const cartBtn = document.createElement('div');
     cartBtn.id = 'cartFloatBtn';
-    cartBtn.innerHTML = '🛒<span id="cartCount">0</span>';
+    cartBtn.innerHTML = 'Carrinho <span id="cartCount">0</span>';
     cartBtn.onclick = openCart;
     document.body.appendChild(cartBtn);
 }
@@ -381,7 +381,25 @@ function openBillModal() {
 }
 
 // Processar pagamento
+// Processar pagamento - ATUALIZADO
 function processPayment(method, total) {
+    // NOVO: Criar notificação de conta para a cozinha
+    const billRequest = {
+        id: Date.now(),
+        type: 'PEDIDO_CONTA',
+        clientName: clientData.name,
+        tableNumber: clientData.table,
+        total: total,
+        paymentMethod: method,
+        timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+        date: new Date().toLocaleDateString('pt-BR')
+    };
+    
+    // Salvar pedido de conta
+    let billRequests = JSON.parse(localStorage.getItem('billRequests')) || [];
+    billRequests.push(billRequest);
+    localStorage.setItem('billRequests', JSON.stringify(billRequests));
+    
     // Liberar mesa
     let occupiedTables = JSON.parse(localStorage.getItem('occupiedTables')) || [];
     occupiedTables = occupiedTables.filter(t => t !== parseInt(clientData.table));
@@ -393,7 +411,7 @@ function processPayment(method, total) {
     // Fechar modal
     document.querySelector('.cart-modal').remove();
     
-    alert(`Pagamento de R$ ${total.toFixed(2)} via ${method} processado!\n\nEm instantes o garçom passará em sua mesa para finalizar o atendimento.\n\nObrigado pela preferência!`);
+    alert(`Solicitação de conta enviada!\n\n Valor: R$ ${total.toFixed(2)}\n Método: ${method}\n\nEm instantes o garçom passará em sua mesa para finalizar o atendimento.\n\nObrigado pela preferência!`);
     
     // Recarregar página para novo atendimento
     setTimeout(() => {
@@ -521,6 +539,4 @@ function submitRating(orderId) {
     
     document.querySelector('.rating-modal').remove();
     alert('Obrigado pela sua avaliação!');
-
 }
-
