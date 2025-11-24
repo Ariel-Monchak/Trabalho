@@ -2,16 +2,17 @@
 window.addEventListener('load', function() {
     const authenticated = sessionStorage.getItem('kitchenAuth');
     if (authenticated === 'true') {
-        document.getElementById('passwordModal').classList.add('hidden');
-        loadOrders();
-        updateProfitDisplay();
-        loadRatings(); // Carregar avaliações imediatamente
-        
-        // Atualizar tudo a cada 3 segundos
-        setInterval(loadOrders, 3000);
-        setInterval(updateProfitDisplay, 3000);
-        setInterval(loadRatings, 3000); // Atualizar avaliações também
-    }
+    document.getElementById('passwordModal').classList.add('hidden');
+    loadOrders();
+    updateProfitDisplay();
+    loadRatings();
+    loadBillRequests(); // ADICIONE ESTA LINHA
+    
+    setInterval(loadOrders, 3000);
+    setInterval(updateProfitDisplay, 3000);
+    setInterval(loadRatings, 3000);
+    setInterval(loadBillRequests, 3000); // ADICIONE ESTA LINHA
+}
 });
 
 // Verificar senha
@@ -31,7 +32,7 @@ function checkPassword() {
         setInterval(updateProfitDisplay, 3000);
         setInterval(loadRatings, 3000); // Atualizar avaliações também
     } else {
-        alert('❌ Senha incorreta! Acesso negado.');
+        alert(' Senha incorreta! Acesso negado.');
         document.getElementById('kitchenPassword').value = '';
     }
 }
@@ -232,4 +233,84 @@ function generateStars(rating) {
         }
     }
     return stars;
+}
+// Toggle de exibição dos pedidos de conta
+function toggleBillRequests() {
+    const container = document.getElementById('billRequestsContainer');
+    const icon = document.getElementById('toggleBillIcon');
+    const text = document.getElementById('toggleBillText');
+    
+    if (container.style.display === 'none') {
+        container.style.display = 'block';
+        icon.textContent = '👁️';
+        text.textContent = 'Ocultar';
+        loadBillRequests();
+    } else {
+        container.style.display = 'none';
+        icon.textContent = '👁️';
+        text.textContent = 'Mostrar';
+    }
+}
+
+// Carregar pedidos de conta
+function loadBillRequests() {
+    const billsList = document.getElementById('billRequestsList');
+    const billRequests = JSON.parse(localStorage.getItem('billRequests')) || [];
+    
+    if (billRequests.length === 0) {
+        billsList.innerHTML = '<div class="no-bills"> Nenhum pedido de conta pendente...</div>';
+        return;
+    }
+    
+    // Ordenar por mais recente
+    billRequests.sort((a, b) => b.id - a.id);
+    
+    billsList.innerHTML = billRequests.map(bill => `
+        <div class="bill-card">
+            <div class="bill-card-header">
+                <div class="bill-customer-info">
+                    <h4> ${bill.clientName}</h4>
+                    <p>Mesa ${bill.tableNumber}</p>
+                </div>
+                <div class="bill-badge">CONTA</div>
+            </div>
+            
+            <div class="bill-details">
+                <div class="bill-info-row">
+                    <span> Horário:</span>
+                    <span>${bill.timestamp}</span>
+                </div>
+                <div class="bill-info-row">
+                    <span> Data:</span>
+                    <span>${bill.date}</span>
+                </div>
+                <div class="bill-info-row">
+                    <span> Pagamento:</span>
+                    <span>${bill.paymentMethod}</span>
+                </div>
+            </div>
+            
+            <div class="bill-total-display">
+                <p>Total: R$ ${bill.total.toFixed(2)}</p>
+            </div>
+            
+            <button class="finish-bill-btn" onclick="finishBill(${bill.id})">
+                Finalizar Atendimento
+            </button>
+        </div>
+    `).join('');
+}
+
+// Finalizar atendimento da conta
+function finishBill(billId) {
+    const confirmar = window.confirm(' Confirmar que o pagamento foi recebido e o atendimento foi finalizado?');
+    
+    if (confirmar) {
+        let billRequests = JSON.parse(localStorage.getItem('billRequests')) || [];
+        billRequests = billRequests.filter(bill => bill.id !== billId);
+        localStorage.setItem('billRequests', JSON.stringify(billRequests));
+        
+        loadBillRequests();
+        alert(' Atendimento finalizado com sucesso!');
+    }
 }
